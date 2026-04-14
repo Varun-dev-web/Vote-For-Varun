@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vote Varun P – Emerald House Vice Captain</title>
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  /* ── CSS VARIABLES (light) ── */
+  :root {
+    --bg:        #f0fdf4;
+    --bg2:       #ffffff;
+    --bg3:       #dcfce7;
+    --card:      #ffffff;
+    --text:      #0f172a;
+    --muted:     #475569;
+    --border:    #bbf7d0;
+    --em1:       #059669;
+    --em2:       #10b981;
+    --em3:       #34d399;
+    --em4:       #6ee7b7;
+    --glow:      rgba(16,185,129,.18);
+    --shadow:    0 4px 24px rgba(5,150,105,.10);
+    --nav-h:     64px;
+    --radius:    14px;
+    --transition: .35s cubic-bezier(.4,0,.2,1);
+  }
+  html.dark {
+    --bg:        #071a10;
+    --bg2:       #0d2818;
+    --bg3:       #0a1f14;
+    --card:      #0f2d1c;
+    --text:      #ecfdf5;
+    --muted:     #86efac;
+    --border:    #166534;
+    --glow:      rgba(52,211,153,.12);
+    --shadow:    0 4px 24px rgba(0,0,0,.4);
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background var(--transition), color var(--transition);
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLL PROGRESS BAR ── */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--em1), var(--em3));
+    z-index: 9999; transition: width .1s linear;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: sticky; top: 0; z-index: 900;
+    height: var(--nav-h);
+    background: rgba(240,253,244,.88);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 1.5rem; gap: 1rem;
+    transition: background var(--transition), border-color var(--transition);
+  }
+  html.dark nav {
+    background: rgba(7,26,16,.88);
+  }
+  .nav-logo {
+    font-weight: 800; font-size: 1.1rem; color: var(--em1);
+    text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    letter-spacing: -.5px;
+  }
+  .nav-logo span { color: var(--text); }
+
+  /* desktop search in nav */
+  .nav-search-wrap {
+    flex: 1; max-width: 320px; position: relative;
+  }
+  @media(max-width:768px){ .nav-search-wrap { display:none; } }
+
+  .nav-links {
+    display: flex; align-items: center; gap: .15rem;
+    list-style: none; margin-left: auto; flex-shrink: 0;
+  }
+  @media(max-width:900px){ .nav-links { display:none; } }
+  .nav-links a {
+    text-decoration: none; color: var(--muted); font-size: .82rem; font-weight: 600;
+    padding: .35rem .55rem; border-radius: 8px;
+    transition: color .2s, background .2s;
+  }
+  .nav-links a:hover { color: var(--em1); background: var(--bg3); }
+
+  /* dark toggle */
+  #dark-toggle {
+    cursor: pointer; background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 999px; padding: .35rem .7rem; font-size: .85rem;
+    color: var(--text); transition: background .2s; flex-shrink: 0;
+    margin-left: .5rem;
+  }
+  #dark-toggle:hover { background: var(--em4); }
+
+  /* hamburger */
+  #hamburger {
+    display: none; cursor: pointer; background: none; border: none;
+    flex-direction: column; gap: 5px; padding: .3rem; margin-left: auto;
+  }
+  @media(max-width:900px){ #hamburger { display:flex; } }
+  #hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--text); border-radius: 2px;
+    transition: transform .3s, opacity .3s;
+  }
+  #mobile-menu {
+    display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem; z-index: 850; flex-direction: column; gap: .3rem;
+  }
+  #mobile-menu.open { display: flex; }
+  #mobile-menu a {
+    text-decoration: none; color: var(--text); font-weight: 600;
+    padding: .6rem .5rem; border-radius: 8px; font-size: .95rem;
+    transition: background .2s, color .2s;
+  }
+  #mobile-menu a:hover { background: var(--bg3); color: var(--em1); }
+
+  /* ── SEARCH BAR SHARED ── */
+  .search-container { position: relative; width: 100%; }
+  .search-input {
+    width: 100%; padding: .55rem 2.5rem .55rem 1rem;
+    border: 1.5px solid var(--border); border-radius: 999px;
+    background: var(--bg2); color: var(--text); font-size: .88rem;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+  }
+  .search-input:focus {
+    border-color: var(--em1);
+    box-shadow: 0 0 0 3px var(--glow);
+  }
+  .search-icon {
+    position: absolute; right: .75rem; top: 50%; transform: translateY(-50%);
+    color: var(--muted); pointer-events: none; font-size: .9rem;
+  }
+  .search-dropdown {
+    position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; box-shadow: var(--shadow);
+    z-index: 999; overflow: hidden; display: none;
+  }
+  .search-dropdown.visible { display: block; }
+  .search-item {
+    padding: .65rem 1rem; cursor: pointer; font-size: .88rem;
+    transition: background .15s; display: flex; align-items: center; gap: .5rem;
+  }
+  .search-item:hover, .search-item:focus { background: var(--bg3); outline: none; }
+  .search-item .tag {
+    font-size: .7rem; background: var(--em1); color: #fff;
+    border-radius: 999px; padding: .1rem .45rem; font-weight: 700;
+  }
+  .did-you-mean { color: var(--em1); font-weight: 700; }
+
+  /* ── SEARCH RESULTS PANEL ── */
+  #search-results-panel {
+    display: none;
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: var(--radius); padding: 2rem; z-index: 1100;
+    width: min(90vw, 480px); box-shadow: 0 8px 40px rgba(0,0,0,.2);
+  }
+  #search-results-panel.open { display: block; }
+  .results-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.45); z-index: 1090;
+  }
+  .results-overlay.open { display: block; }
+  #search-results-panel h3 {
+    font-size: .75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--muted); margin-bottom: .75rem;
+  }
+  .result-card {
+    border: 1.5px solid var(--em2); border-radius: 12px; padding: 1.1rem;
+    margin-bottom: 1rem; background: linear-gradient(135deg, var(--bg3), var(--bg2));
+  }
+  .result-card strong { font-size: 1.05rem; color: var(--em1); display: block; margin-bottom: .35rem; }
+  .result-card p { font-size: .88rem; color: var(--muted); }
+  .close-results {
+    position: absolute; top: .75rem; right: 1rem;
+    background: none; border: none; cursor: pointer;
+    font-size: 1.2rem; color: var(--muted);
+  }
+
+  /* ── HERO ── */
+  #home {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: linear-gradient(160deg, var(--bg) 0%, var(--bg3) 60%, #a7f3d0 100%);
+    padding: calc(var(--nav-h) + 2rem) 1.5rem 4rem;
+  }
+  html.dark #home {
+    background: linear-gradient(160deg, var(--bg) 0%, #0a2415 60%, #0d3320 100%);
+  }
+  .hero-orb {
+    position: absolute; border-radius: 50%; filter: blur(80px); opacity: .45;
+    pointer-events: none;
+  }
+  .orb1 { width: 500px; height: 500px; background: radial-gradient(circle, #6ee7b7, transparent); top: -100px; right: -100px; }
+  .orb2 { width: 350px; height: 350px; background: radial-gradient(circle, #059669, transparent); bottom: -80px; left: -80px; }
+  html.dark .hero-orb { opacity: .2; }
+
+  .hero-content {
+    position: relative; text-align: center; max-width: 800px; z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .45rem;
+    background: var(--em1); color: #fff; border-radius: 999px;
+    padding: .35rem 1rem; font-size: .78rem; font-weight: 700;
+    letter-spacing: .05em; text-transform: uppercase; margin-bottom: 1.5rem;
+    box-shadow: 0 2px 14px rgba(5,150,105,.4);
+    animation: fadeDown .6s ease both;
+  }
+  .hero-badge .dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: pulse 1.5s infinite; }
+
+  .hero-h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.12;
+    letter-spacing: -.02em; margin-bottom: .75rem;
+    animation: fadeUp .7s .1s ease both;
+  }
+  .hero-h1 .green { color: var(--em1); }
+  .tagline {
+    font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--muted); font-weight: 500;
+    margin-bottom: 2rem; animation: fadeUp .7s .2s ease both;
+  }
+  .hero-search-wrap {
+    max-width: 500px; margin: 0 auto 2rem; animation: fadeUp .7s .3s ease both;
+  }
+  .hero-cta-group {
+    display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp .7s .4s ease both;
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: .45rem;
+    padding: .7rem 1.6rem; border-radius: 999px; font-weight: 700;
+    font-size: .9rem; cursor: pointer; border: none; text-decoration: none;
+    transition: transform .2s, box-shadow .2s, background .2s;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--em1), var(--em2));
+    color: #fff; box-shadow: 0 4px 18px rgba(5,150,105,.4);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 28px rgba(5,150,105,.55); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--em1);
+    border: 2px solid var(--em1);
+  }
+  .btn-outline:hover { background: var(--em1); color: #fff; transform: translateY(-2px); }
+  .btn-lg { padding: .9rem 2rem; font-size: 1rem; }
+
+  /* ── VOTE CTA BIG BUTTON ── */
+  #vote-btn {
+    background: linear-gradient(135deg, #047857, var(--em1), var(--em3));
+    background-size: 200% 200%;
+    animation: gradShift 3s ease infinite;
+    color: #fff; font-size: 1.1rem; padding: 1rem 2.5rem;
+    border-radius: 999px; border: none; cursor: pointer;
+    font-weight: 800; letter-spacing: .02em;
+    box-shadow: 0 6px 30px rgba(5,150,105,.45);
+    transition: transform .2s, box-shadow .2s;
+  }
+  #vote-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 40px rgba(5,150,105,.6); }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 1.5rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: .75rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .12em; color: var(--em1); margin-bottom: .5rem;
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900;
+    line-height: 1.15; letter-spacing: -.02em; margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--muted); font-size: 1rem; max-width: 600px; line-height: 1.7; }
+  .divider { width: 48px; height: 4px; background: linear-gradient(90deg, var(--em1), var(--em3)); border-radius: 2px; margin: 1rem 0 2rem; }
+
+  /* ── WHY VARUN ── */
+  #why { background: var(--bg2); }
+  html.dark #why { background: var(--bg2); }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+  .why-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.5rem;
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+    position: relative; overflow: hidden;
+  }
+  .why-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--em1), var(--em3));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s;
+  }
+  .why-card:hover::before { transform: scaleX(1); }
+  .why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--em2); }
+  .why-icon { font-size: 2rem; margin-bottom: .75rem; }
+  .why-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: .5rem; }
+  .why-card p { font-size: .88rem; color: var(--muted); line-height: 1.65; }
+
+  /* highlight animation for "why" section */
+  @keyframes sectionPulse {
+    0%,100% { box-shadow: none; }
+    50% { box-shadow: 0 0 0 6px rgba(16,185,129,.35); }
+  }
+  .highlight-pulse { animation: sectionPulse .9s 3; border-radius: var(--radius); }
+
+  /* ── EXPERIENCE CARDS (accordion) ── */
+  #experience { background: var(--bg); }
+  .exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+  .exp-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); transition: box-shadow .3s;
+  }
+  .exp-card:hover { box-shadow: 0 8px 32px rgba(5,150,105,.15); }
+  .exp-header {
+    padding: 1.25rem 1.5rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    user-select: none;
+  }
+  .exp-header:focus { outline: 3px solid var(--em1); outline-offset: -3px; }
+  .exp-header-left { display: flex; align-items: center; gap: .85rem; }
+  .exp-icon-wrap {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--em1), var(--em3));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .exp-header h3 { font-size: 1rem; font-weight: 800; }
+  .exp-header p { font-size: .8rem; color: var(--muted); margin-top: .2rem; }
+  .exp-chevron {
+    font-size: 1.1rem; color: var(--em1); transition: transform .35s;
+    flex-shrink: 0;
+  }
+  .exp-card.open .exp-chevron { transform: rotate(180deg); }
+  .exp-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .45s cubic-bezier(.4,0,.2,1), padding .35s;
+    padding: 0 1.5rem;
+  }
+  .exp-card.open .exp-body { max-height: 500px; padding: 0 1.5rem 1.5rem; }
+  .exp-body p { font-size: .9rem; color: var(--muted); line-height: 1.7; }
+  .exp-body ul { margin: .75rem 0 0 1.1rem; display: flex; flex-direction: column; gap: .4rem; }
+  .exp-body li { font-size: .88rem; color: var(--muted); line-height: 1.6; }
+  .exp-body li::marker { color: var(--em1); }
+
+  /* ── STRENGTHS ── */
+  #strengths { background: var(--bg2); }
+  .strengths-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .str-card {
+    background: var(--bg3); border-radius: var(--radius);
+    padding: 1.25rem; text-align: center;
+    border: 1px solid var(--border);
+    transition: transform .3s, box-shadow .3s;
+  }
+  html.dark .str-card { background: var(--card); }
+  .str-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .str-card .icon { font-size: 2rem; margin-bottom: .6rem; }
+  .str-card h4 { font-size: .92rem; font-weight: 800; margin-bottom: .35rem; }
+  .str-card p { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+  .activities-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+  .badge {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 999px; padding: .3rem .85rem;
+    font-size: .78rem; font-weight: 700; color: var(--em1);
+    transition: background .2s, color .2s;
+  }
+  html.dark .badge { background: var(--card); }
+  .badge:hover { background: var(--em1); color: #fff; }
+
+  /* ── LEADERSHIP MOMENT ── */
+  #moment { background: linear-gradient(135deg, var(--em1) 0%, #047857 40%, #065f46 100%); color: #fff; }
+  #moment .section-label { color: #a7f3d0; }
+  #moment .section-title { color: #fff; }
+  #moment .section-sub { color: #d1fae5; }
+  .moment-card {
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(10px);
+    margin-top: 2.5rem; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 2rem;
+  }
+  @media(max-width:640px){ .moment-card { grid-template-columns: 1fr; } }
+  .moment-stat { text-align: center; }
+  .moment-stat .num { font-size: 2.8rem; font-weight: 900; line-height: 1; }
+  .moment-stat .label { font-size: .85rem; color: #a7f3d0; margin-top: .3rem; }
+  .moment-story { display: flex; flex-direction: column; justify-content: center; gap: .75rem; }
+  .moment-story p { font-size: .92rem; line-height: 1.75; color: #d1fae5; }
+  .moment-quote {
+    border-left: 3px solid #6ee7b7; padding-left: 1rem;
+    font-style: italic; font-size: .95rem; color: #ecfdf5;
+  }
+
+  /* ── VISION ── */
+  #vision { background: var(--bg); }
+  .vision-pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .pillar {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.5rem; text-align: center;
+    transition: transform .3s, box-shadow .3s;
+    position: relative; overflow: hidden;
+  }
+  .pillar::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--em1), var(--em3));
+  }
+  .pillar:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .pillar .icon { font-size: 2.2rem; margin-bottom: .75rem; }
+  .pillar h4 { font-size: 1rem; font-weight: 800; margin-bottom: .4rem; }
+  .pillar p { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── FAQ ── */
+  #faq { background: var(--bg2); }
+  .faq-list { display: flex; flex-direction: column; gap: .75rem; margin-top: 2rem; max-width: 760px; }
+  .faq-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .faq-q {
+    padding: 1.1rem 1.5rem; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    font-weight: 700; font-size: .95rem;
+    transition: background .2s;
+    user-select: none;
+  }
+  .faq-q:hover { background: var(--bg3); }
+  .faq-q:focus { outline: 3px solid var(--em1); outline-offset: -3px; }
+  .faq-q .arrow { font-size: 1rem; color: var(--em1); transition: transform .35s; flex-shrink: 0; }
+  .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1), padding .3s;
+    padding: 0 1.5rem; font-size: .9rem; color: var(--muted); line-height: 1.75;
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding: 0 1.5rem 1.25rem; }
+
+  /* ── SUPPORT ── */
+  #support {
+    background: var(--bg3);
+    text-align: center;
+  }
+  html.dark #support { background: var(--bg2); }
+  .support-inner { max-width: 700px; margin: 0 auto; }
+  .counter-display {
+    font-size: 3.5rem; font-weight: 900; color: var(--em1);
+    line-height: 1; margin: 1.5rem 0 .5rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .counter-label { font-size: .9rem; color: var(--muted); margin-bottom: 2rem; }
+  .vote-wrap { margin: 1.5rem 0; }
+
+  /* ── MODAL ── */
+  #modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.55); z-index: 2000;
+    align-items: center; justify-content: center;
+  }
+  #modal-overlay.open { display: flex; }
+  #modal {
+    background: var(--card); border-radius: 20px;
+    padding: 2.5rem; max-width: 420px; width: 90%;
+    text-align: center; position: relative;
+    box-shadow: 0 12px 60px rgba(0,0,0,.3);
+    animation: modalPop .4s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(.8); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .modal-icon { font-size: 3rem; margin-bottom: 1rem; }
+  #modal h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .75rem; }
+  #modal p { font-size: .95rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.5rem; }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--bg3); border: none; border-radius: 50%;
+    width: 32px; height: 32px; cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  .modal-close:hover { background: var(--border); }
+
+  /* ── CONFETTI ── */
+  .confetti-piece {
+    position: fixed; width: 10px; height: 10px;
+    border-radius: 2px; pointer-events: none; z-index: 3000;
+    animation: confettiFall linear forwards;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg2); border-top: 1px solid var(--border);
+    padding: 2rem 1.5rem; text-align: center;
+    font-size: .82rem; color: var(--muted);
+  }
+  footer strong { color: var(--em1); }
+  .footer-reset {
+    margin-top: .75rem; font-size: .75rem; color: var(--border);
+    cursor: pointer; user-select: none; display: inline-block;
+    transition: color .2s;
+  }
+  .footer-reset:hover { color: var(--muted); }
+
+  /* ── BACK TO TOP ── */
+  #back-top {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 800;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--em1), var(--em2));
+    color: #fff; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; box-shadow: 0 4px 16px rgba(5,150,105,.4);
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .3s, transform .3s;
+  }
+  #back-top.visible { opacity: 1; transform: translateY(0); }
+  #back-top:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(5,150,105,.55); }
+
+  /* ── REVEAL ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal-left  { opacity: 0; transform: translateX(-30px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal-left.in { opacity: 1; transform: none; }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .6; transform: scale(1.3); }
+  }
+  @keyframes gradShift {
+    0%,100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  /* ── MISC ── */
+  .green-text { color: var(--em1); }
+  .highlight { background: linear-gradient(135deg,rgba(16,185,129,.15),rgba(52,211,153,.05)); border-radius: 6px; padding: 0 .25rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar" role="progressbar" aria-label="Page scroll progress"></div>
+
+<!-- SEARCH RESULTS OVERLAY -->
+<div class="results-overlay" id="results-overlay" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<nav aria-label="Main navigation">
+  <a href="#home" class="nav-logo">🌿 Varun <span>P</span></a>
+
+  <!-- nav search -->
+  <div class="nav-search-wrap">
+    <div class="search-container">
+      <input type="search" class="search-input emerald-search" id="nav-search"
+        placeholder="Search Emerald…" autocomplete="off"
+        aria-label="Emerald search" aria-autocomplete="list" aria-haspopup="listbox" />
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <div class="search-dropdown" id="nav-dropdown" role="listbox" aria-label="Search suggestions"></div>
+    </div>
+  </div>
+
+  <ul class="nav-links" aria-label="Site sections">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#why">Why Varun</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#strengths">Strengths</a></li>
+    <li><a href="#moment">Moment</a></li>
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#support">Support</a></li>
+  </ul>
+
+  <button id="dark-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+  <button id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+  <a href="#home">🏠 Home</a>
+  <a href="#why">⭐ Why Varun</a>
+  <a href="#experience">📋 Experience</a>
+  <a href="#strengths">💪 Strengths</a>
+  <a href="#moment">🏆 Moment</a>
+  <a href="#vision">🔭 Vision</a>
+  <a href="#faq">❓ FAQ</a>
+  <a href="#support">🗳️ Support</a>
+</div>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<section id="home" aria-label="Hero section">
+  <div class="hero-orb orb1" aria-hidden="true"></div>
+  <div class="hero-orb orb2" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot" aria-hidden="true"></span>
+      Emerald House · IX-B · Election 2025
+    </div>
+
+    <h1 class="hero-h1">
+      Vote <span class="green">Varun P</span> for<br>
+      Emerald House <span class="green">Vice Captain</span>
+    </h1>
+    <p class="tagline">Calm leadership. Full potential for Emerald.</p>
+
+    <!-- hero search -->
+    <div class="hero-search-wrap">
+      <div class="search-container">
+        <input type="search" class="search-input emerald-search" id="hero-search"
+          placeholder="Search Emerald… (try anything!)" autocomplete="off"
+          aria-label="Emerald search" aria-autocomplete="list" aria-haspopup="listbox" />
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <div class="search-dropdown" id="hero-dropdown" role="listbox" aria-label="Search suggestions"></div>
+      </div>
+    </div>
+
+    <div class="hero-cta-group">
+      <a href="#support" class="btn btn-primary btn-lg">🗳️ Support Varun</a>
+      <a href="#why" class="btn btn-outline btn-lg">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ WHY VARUN ═══════════════════════════ -->
+<section id="why" aria-label="Why Varun section">
+  <div class="section-inner">
+    <p class="section-label reveal">Why Varun?</p>
+    <h2 class="section-title reveal">The Right Person for<br><span class="green-text">Emerald Vice Captain</span></h2>
+    <div class="divider reveal"></div>
+    <p class="section-sub reveal">Varun P brings hands-on leadership, genuine dedication, and a clear vision — everything Emerald needs to rise to 1st place.</p>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">🏅</div>
+        <h3>Proven Track Record</h3>
+        <p>As a Senior Prefect and SCM member, Varun already operates in leadership roles every day — this isn't a new hat for him, it's a natural next step.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🤝</div>
+        <h3>Knows the Community</h3>
+        <p>Varun knows Emerald members personally — their strengths, interests, and potential. That insider understanding makes him a dependable partner to the Captain.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🎯</div>
+        <h3>Ambitious for Emerald</h3>
+        <p>His single goal: push Emerald to 1st place by unlocking every member's full potential. He doesn't just want to hold a title — he wants to win for Emerald.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">⚡</div>
+        <h3>Reliable Under Pressure</h3>
+        <p>When situations go sideways — last-minute changes, missing resources, unexpected challenges — Varun steps in without fuss and gets things done.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ EXPERIENCE ═══════════════════════════ -->
+<section id="experience" aria-label="Experience section">
+  <div class="section-inner">
+    <p class="section-label reveal">Real Experience</p>
+    <h2 class="section-title reveal">Leadership in <span class="green-text">Action</span></h2>
+    <div class="divider reveal"></div>
+    <p class="section-sub reveal">Click any card to explore how Varun demonstrated real leadership when it counted most.</p>
+
+    <div class="exp-grid">
+
+      <!-- Card 1 -->
+      <div class="exp-card reveal" id="exp1">
+        <div class="exp-header" tabindex="0" role="button"
+          aria-expanded="false" aria-controls="exp1-body"
+          onclick="toggleExp('exp1')" onkeydown="if(event.key==='Enter'||event.key===' ')toggleExp('exp1')">
+          <div class="exp-header-left">
+            <div class="exp-icon-wrap" aria-hidden="true">🎄</div>
+            <div>
+              <h3>Christmas Celebration</h3>
+              <p>Last-minute crisis, seamless execution</p>
+            </div>
+          </div>
+          <span class="exp-chevron" aria-hidden="true">▼</span>
+        </div>
+        <div class="exp-body" id="exp1-body" aria-hidden="true">
+          <p>When last-minute changes threatened the Christmas event, Varun didn't panic — he took charge. He decided to add a nativity play to the programme and <strong>wrote the entire script himself</strong> under time pressure.</p>
+          <ul>
+            <li>Coordinated directly with the SPL to get approvals quickly</li>
+            <li>Organised roles and rehearsals on the fly</li>
+            <li>Ensured the event ran on schedule without visible disruption</li>
+            <li>Turned a potential setback into a memorable highlight</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="exp-card reveal" id="exp2">
+        <div class="exp-header" tabindex="0" role="button"
+          aria-expanded="false" aria-controls="exp2-body"
+          onclick="toggleExp('exp2')" onkeydown="if(event.key==='Enter'||event.key===' ')toggleExp('exp2')">
+          <div class="exp-header-left">
+            <div class="exp-icon-wrap" aria-hidden="true">📸</div>
+            <div>
+              <h3>Bookmark Making Bonanza</h3>
+              <p>No photographer? Problem solved.</p>
+            </div>
+          </div>
+          <span class="exp-chevron" aria-hidden="true">▼</span>
+        </div>
+        <div class="exp-body" id="exp2-body" aria-hidden="true">
+          <p>The Bookmark Making Bonanza arrived with a glaring gap — no photographer had been assigned to document the event. Instead of waiting for someone else to fix it, Varun grabbed the camera himself.</p>
+          <ul>
+            <li>Picked up the camera without being asked</li>
+            <li>Covered the entire event while also participating</li>
+            <li>Delivered complete event documentation</li>
+            <li>Showed the "see a gap — fill it" mindset of a true leader</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ STRENGTHS ═══════════════════════════ -->
+<section id="strengths" aria-label="Strengths section">
+  <div class="section-inner">
+    <p class="section-label reveal">What He Brings</p>
+    <h2 class="section-title reveal">Strengths &amp; <span class="green-text">Activities</span></h2>
+    <div class="divider reveal"></div>
+
+    <div class="strengths-grid">
+      <div class="str-card reveal">
+        <div class="icon">🧘</div>
+        <h4>Calm Under Pressure</h4>
+        <p>Stays composed when things go wrong, making clear decisions when others hesitate.</p>
+      </div>
+      <div class="str-card reveal">
+        <div class="icon">🗣️</div>
+        <h4>Clear Communicator</h4>
+        <p>Gets the message across without confusion — essential for coordinating events and teams.</p>
+      </div>
+      <div class="str-card reveal">
+        <div class="icon">🚪</div>
+        <h4>Approachable</h4>
+        <p>Students feel comfortable coming to Varun — he listens before acting.</p>
+      </div>
+      <div class="str-card reveal">
+        <div class="icon">🔧</div>
+        <h4>Proactive Problem Solver</h4>
+        <p>Doesn't wait to be told — spots the gap and fills it, every time.</p>
+      </div>
+      <div class="str-card reveal">
+        <div class="icon">🌐</div>
+        <h4>Versatile Contributor</h4>
+        <p>Active across AV, graphic design, sports, and tech — wears many hats with ease.</p>
+      </div>
+      <div class="str-card reveal">
+        <div class="icon">💡</div>
+        <h4>Creative Thinker</h4>
+        <p>Wrote a nativity play script under pressure — creative solutions come naturally.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:2.5rem;">
+      <h3 style="font-size:1rem;font-weight:800;margin-bottom:1rem;">Clubs &amp; Teams</h3>
+      <div class="activities-row">
+        <span class="badge">🤖 Techno Club</span>
+        <span class="badge">⚽ Sports Club</span>
+        <span class="badge">🎬 AV Team</span>
+        <span class="badge">🎨 Graphic Team</span>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:1.5rem;">
+      <h3 style="font-size:1rem;font-weight:800;margin-bottom:1rem;">Competitions &amp; Initiatives</h3>
+      <div class="activities-row">
+        <span class="badge">♟️ Chess</span>
+        <span class="badge">🏏 Cricket</span>
+        <span class="badge">⚽ Football</span>
+        <span class="badge">🤖 Robotics</span>
+        <span class="badge">🌍 MUN</span>
+        <span class="badge">🎭 ReadOn Theatrical Drama</span>
+        <span class="badge">🏷️ V4 Technologies (Startup)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MOMENT ═══════════════════════════════ -->
+<section id="moment" aria-label="Leadership moment section">
+  <div class="section-inner">
+    <p class="section-label reveal">Defining Moment</p>
+    <h2 class="section-title reveal">The Tri Series Story</h2>
+    <div class="divider reveal" style="background:linear-gradient(90deg,#6ee7b7,#34d399);"></div>
+    <p class="section-sub reveal">A moment that shows exactly who Varun is as a leader — not by title, but by action.</p>
+
+    <div class="moment-card reveal">
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+        <div class="moment-stat">
+          <div class="num">🏅</div>
+          <div class="label">Grade 5 Emerald</div>
+          <div style="font-size:.85rem;color:#a7f3d0;margin-top:.2rem;">Tri Series · Box Cricket</div>
+        </div>
+        <div class="moment-stat">
+          <div class="num">🥈</div>
+          <div class="label">Silver — Finals</div>
+          <div style="font-size:.85rem;color:#a7f3d0;margin-top:.2rem;">From fear to podium</div>
+        </div>
+      </div>
+
+      <div class="moment-story">
+        <p>During the Tri Series, the Grade 5 Emerald students were up against Ruby in box cricket. They were nervous — Ruby had a strong reputation and Emerald's confidence was shaky.</p>
+        <p>Varun didn't have a formal role in the match. But he saw the team's fear, walked over, and motivated them — talking about belief, strategy, and what Emerald stood for.</p>
+        <blockquote class="moment-quote">
+          "They believed they couldn't win. I just helped them see that they could — and they proved it."
+        </blockquote>
+        <p>The result? Emerald powered through to the <strong style="color:#ecfdf5;">finals and claimed Silver</strong>. That's the kind of leadership Varun brings — not because of a badge, but because of genuine care for the team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ VISION ═══════════════════════════════ -->
+<section id="vision" aria-label="Vision section">
+  <div class="section-inner">
+    <p class="section-label reveal">The Future</p>
+    <h2 class="section-title reveal">Varun's <span class="green-text">Vision for Emerald</span></h2>
+    <div class="divider reveal"></div>
+    <p class="section-sub reveal">A Vice Captain should build the team up — every individual, every event, every opportunity. Here's what Varun is committed to.</p>
+
+    <div class="vision-pillars">
+      <div class="pillar reveal">
+        <div class="icon">🤝</div>
+        <h4>Teamwork First</h4>
+        <p>Build a culture where every Emerald member collaborates, not competes internally.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="icon">📐</div>
+        <h4>Discipline</h4>
+        <p>Consistent effort, punctuality, and respect — the foundation of a winning house.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="icon">⚖️</div>
+        <h4>Equal Opportunities</h4>
+        <p>Every student — regardless of grade or ability — gets a fair chance to shine for Emerald.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="icon">🌟</div>
+        <h4>Everyone Valued</h4>
+        <p>No one left behind. Varun ensures every member feels included, heard, and motivated.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="icon">🚀</div>
+        <h4>Full Potential</h4>
+        <p>The goal is 1st place — and that starts with every student believing they can get Emerald there.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="icon">🛡️</div>
+        <h4>Support System</h4>
+        <p>From AV to events to unexpected challenges, Varun steps in wherever he's needed most.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FAQ ══════════════════════════════════ -->
+<section id="faq" aria-label="Frequently asked questions">
+  <div class="section-inner">
+    <p class="section-label reveal">Got Questions?</p>
+    <h2 class="section-title reveal">Frequently Asked <span class="green-text">Questions</span></h2>
+    <div class="divider reveal"></div>
+
+    <div class="faq-list" role="list">
+
+      <div class="faq-item reveal" role="listitem">
+        <div class="faq-q" tabindex="0" role="button" aria-expanded="false"
+          onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+          What will Varun do as Vice Captain?
+          <span class="arrow" aria-hidden="true">▼</span>
+        </div>
+        <div class="faq-a" aria-hidden="true">
+          As Vice Captain, Varun will actively support the Captain in organising house events, coordinating members, resolving on-the-spot problems, and keeping morale high. He'll also ensure AV and event logistics run smoothly, guide younger students, and step in wherever gaps appear — just as he's done before.
+        </div>
+      </div>
+
+      <div class="faq-item reveal" role="listitem">
+        <div class="faq-q" tabindex="0" role="button" aria-expanded="false"
+          onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+          How will Emerald improve under Varun's leadership?
+          <span class="arrow" aria-hidden="true">▼</span>
+        </div>
+        <div class="faq-a" aria-hidden="true">
+          Varun believes Emerald hasn't reached its ceiling yet. By creating a culture of teamwork and discipline, ensuring every student gets equal opportunity to participate, and motivating members who feel overlooked, he plans to unlock the house's true potential — with 1st place as the target.
+        </div>
+      </div>
+
+      <div class="faq-item reveal" role="listitem">
+        <div class="faq-q" tabindex="0" role="button" aria-expanded="false"
+          onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+          How does Varun handle pressure?
+          <span class="arrow" aria-hidden="true">▼</span>
+        </div>
+        <div class="faq-a" aria-hidden="true">
+          Calmly and practically. During the Christmas Celebration, he absorbed last-minute changes, wrote a script on the spot, coordinated with the SPL, and delivered everything on time. When no photographer showed up for the Bookmark Making Bonanza, he picked up the camera himself. Pressure doesn't stop Varun — it activates him.
+        </div>
+      </div>
+
+      <div class="faq-item reveal" role="listitem">
+        <div class="faq-q" tabindex="0" role="button" aria-expanded="false"
+          onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+          What activities and clubs is Varun involved in?
+          <span class="arrow" aria-hidden="true">▼</span>
+        </div>
+        <div class="faq-a" aria-hidden="true">
+          Varun is a member of the Techno Club, Sports Club, AV Team, and Graphic Team. He's competed in robotics, chess, cricket, and football. He's a competitive MUN participant, performed in the ReadOn Theatrical Drama Act Festival, and even founded V4 Technologies — a startup focused on custom labels. His range of involvement shows he can contribute across every dimension of school life.
+        </div>
+      </div>
+
+      <div class="faq-item reveal" role="listitem">
+        <div class="faq-q" tabindex="0" role="button" aria-expanded="false"
+          onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+          Why should I vote for Varun over others?
+          <span class="arrow" aria-hidden="true">▼</span>
+        </div>
+        <div class="faq-a" aria-hidden="true">
+          Because Varun doesn't just talk about leadership — he's already living it. As a Senior Prefect and SCM member, he's been in real leadership situations, made real decisions under pressure, and delivered real results. He knows Emerald's members and genuinely cares about the house rising together. That's the difference.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ SUPPORT ══════════════════════════════ -->
+<section id="support" aria-label="Support section">
+  <div class="section-inner support-inner">
+    <p class="section-label reveal">Show Your Support</p>
+    <h2 class="section-title reveal">Ready to Back <span class="green-text">Varun?</span></h2>
+    <div class="divider reveal" style="margin:1rem auto;"></div>
+    <p class="section-sub reveal" style="margin:0 auto 1rem;">Join the Emerald community supporting Varun P for House Vice Captain. Every vote counts — see you on election day!</p>
+
+    <div class="counter-display reveal" id="support-counter" aria-live="polite" aria-label="Supporter count">127</div>
+    <div class="counter-label reveal">Emerald supporters and counting 🌿</div>
+
+    <div class="vote-wrap reveal">
+      <button id="vote-btn" aria-label="I'm voting for Varun — click to show support">
+        🗳️ I'm Voting for Varun!
+      </button>
+    </div>
+
+    <p class="reveal" style="font-size:.82rem;color:var(--muted);margin-top:1rem;">
+      ✨ This is a <strong>campaign support indicator</strong> — not an official voting system.<br>
+      Cast your real vote on election day!
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+  <p>🌿 <strong>Vote Varun P</strong> — Emerald House Vice Captain · Grade IX-B</p>
+  <p style="margin-top:.4rem;">Calm leadership. Full potential for Emerald.</p>
+  <span class="footer-reset" id="footer-reset" title="Long-press to reset demo counter" role="button" tabindex="0" aria-label="Reset demo counter (long press)">
+    · · ·
+  </span>
+</footer>
+
+<!-- ═══════════════════════════════ MODAL ════════════════════════════════ -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+  <div id="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close modal">✕</button>
+    <div class="modal-icon" aria-hidden="true">🎉</div>
+    <h2 id="modal-title">You're in, legend!</h2>
+    <p id="modal-desc">Thanks for your support — see you on election day! Together we'll take Emerald to 1st place. 🌿</p>
+    <button class="btn btn-primary" onclick="closeModal()" style="width:100%;">
+      Let's Go, Emerald! 💚
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SEARCH RESULTS PANEL ═════════════════ -->
+<div id="search-results-panel" role="dialog" aria-modal="true" aria-label="Search results">
+  <button class="close-results" id="close-results" aria-label="Close search results">✕</button>
+  <h3>🔍 Top Result</h3>
+  <div class="result-card">
+    <strong>Varun P — Best House Vice Captain for Emerald</strong>
+    <p>Senior Prefect · SCM Member · IX-B · Calm leader · Real experience · Emerald's 1st place candidate.</p>
+  </div>
+  <button class="btn btn-primary" style="width:100%;" onclick="closeResultsAndScroll()">
+    🗳️ Vote for Varun
+  </button>
+</div>
+
+<!-- BACK TO TOP -->
+<button id="back-top" aria-label="Back to top" title="Back to top">↑</button>
+
+<!-- ═══════════════════════════════ JAVASCRIPT ════════════════════════════ -->
+<script>
+// ─── DARK MODE ────────────────────────────────────────────────────────────────
+const html = document.documentElement;
+const darkBtn = document.getElementById('dark-toggle');
+
+function applyDark(on) {
+  html.classList.toggle('dark', on);
+  darkBtn.textContent = on ? '☀️' : '🌙';
+  darkBtn.setAttribute('aria-label', on ? 'Switch to light mode' : 'Switch to dark mode');
+}
+applyDark(localStorage.getItem('darkMode') === 'true');
+darkBtn.addEventListener('click', () => {
+  const now = html.classList.contains('dark');
+  localStorage.setItem('darkMode', !now);
+  applyDark(!now);
+});
+
+// ─── SCROLL PROGRESS BAR ──────────────────────────────────────────────────────
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  bar.style.width = (window.scrollY / total * 100) + '%';
+}, { passive: true });
+
+// ─── BACK TO TOP ──────────────────────────────────────────────────────────────
+const btt = document.getElementById('back-top');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// ─── MOBILE MENU ──────────────────────────────────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', open);
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  });
+});
+
+// ─── REVEAL ON SCROLL ─────────────────────────────────────────────────────────
+const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObs.observe(el));
+
+// ─── EXPERIENCE ACCORDION ─────────────────────────────────────────────────────
+function toggleExp(id) {
+  const card = document.getElementById(id);
+  const body = document.getElementById(id + '-body');
+  const btn  = card.querySelector('.exp-header');
+  const isOpen = card.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  body.setAttribute('aria-hidden', !isOpen);
+}
+
+// ─── FAQ ACCORDION ────────────────────────────────────────────────────────────
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const ans  = item.querySelector('.faq-a');
+  const isOpen = item.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  ans.setAttribute('aria-hidden', !isOpen);
+}
+
+// ─── SUPPORTERS COUNTER ───────────────────────────────────────────────────────
+const START_COUNT = 127;
+let count = parseInt(localStorage.getItem('supportCount') || START_COUNT, 10);
+const counterEl = document.getElementById('support-counter');
+
+function animateCounter(from, to, el, dur) {
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * ease);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+animateCounter(START_COUNT - 10, count, counterEl, 900);
+
+// ─── CONFETTI ─────────────────────────────────────────────────────────────────
+function launchConfetti() {
+  const colors = ['#059669','#10b981','#34d399','#6ee7b7','#047857','#a7f3d0','#fbbf24','#f9a8d4'];
+  for (let i = 0; i < 90; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.cssText = `
+      left: ${Math.random() * 100}vw;
+      top: -12px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      width: ${6 + Math.random() * 8}px;
+      height: ${6 + Math.random() * 8}px;
+      border-radius: ${Math.random() > .5 ? '50%' : '2px'};
+      animation-duration: ${1.8 + Math.random() * 1.8}s;
+      animation-delay: ${Math.random() * .6}s;
+    `;
+    document.body.appendChild(c);
+    c.addEventListener('animationend', () => c.remove());
+  }
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+const overlay   = document.getElementById('modal-overlay');
+const modal     = document.getElementById('modal');
+const closeBtn  = document.getElementById('modal-close');
+let prevFocus;
+
+function openModal() {
+  prevFocus = document.activeElement;
+  overlay.classList.add('open');
+  closeBtn.focus();
+  trapFocus(modal);
+}
+function closeModal() {
+  overlay.classList.remove('open');
+  if (prevFocus) prevFocus.focus();
+}
+function trapFocus(el) {
+  const focusable = el.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
+  const first = focusable[0], last = focusable[focusable.length - 1];
+  el.addEventListener('keydown', function handler(e) {
+    if (e.key === 'Tab') {
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    if (e.key === 'Escape') { closeModal(); el.removeEventListener('keydown', handler); }
+  });
+}
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+closeBtn.addEventListener('click', closeModal);
+
+// ─── VOTE BUTTON ──────────────────────────────────────────────────────────────
+const voteBtn = document.getElementById('vote-btn');
+voteBtn.addEventListener('click', () => {
+  const voted = localStorage.getItem('varunVoted');
+  if (!voted) {
+    count++;
+    localStorage.setItem('supportCount', count);
+    localStorage.setItem('varunVoted', 'true');
+    animateCounter(count - 1, count, counterEl, 600);
+    voteBtn.textContent = '✅ Voted! Thank you!';
+    voteBtn.style.background = 'linear-gradient(135deg,#047857,#065f46)';
+    voteBtn.disabled = true;
+  }
+  launchConfetti();
+  openModal();
+});
+
+// Load voted state on page load
+if (localStorage.getItem('varunVoted')) {
+  voteBtn.textContent = '✅ Voted! Thank you!';
+  voteBtn.style.background = 'linear-gradient(135deg,#047857,#065f46)';
+}
+
+// ─── FOOTER RESET (long-press) ────────────────────────────────────────────────
+const footerReset = document.getElementById('footer-reset');
+let resetTimer;
+footerReset.addEventListener('mousedown', () => {
+  resetTimer = setTimeout(() => {
+    localStorage.removeItem('varunVoted');
+    localStorage.setItem('supportCount', START_COUNT);
+    count = START_COUNT;
+    counterEl.textContent = START_COUNT;
+    voteBtn.textContent = '🗳️ I\'m Voting for Varun!';
+    voteBtn.style.background = '';
+    voteBtn.disabled = false;
+    footerReset.textContent = '✓ Reset!';
+    setTimeout(() => footerReset.textContent = '· · ·', 1500);
+  }, 1500);
+});
+footerReset.addEventListener('mouseup', () => clearTimeout(resetTimer));
+footerReset.addEventListener('mouseleave', () => clearTimeout(resetTimer));
+// Touch support
+footerReset.addEventListener('touchstart', () => {
+  resetTimer = setTimeout(() => {
+    localStorage.removeItem('varunVoted');
+    localStorage.setItem('supportCount', START_COUNT);
+    count = START_COUNT;
+    counterEl.textContent = START_COUNT;
+    voteBtn.textContent = '🗳️ I\'m Voting for Varun!';
+    voteBtn.style.background = '';
+    voteBtn.disabled = false;
+    footerReset.textContent = '✓ Reset!';
+    setTimeout(() => footerReset.textContent = '· · ·', 1500);
+  }, 1500);
+}, { passive: true });
+footerReset.addEventListener('touchend', () => clearTimeout(resetTimer));
+footerReset.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    // keyboard: single press for demo convenience
+    localStorage.removeItem('varunVoted');
+    localStorage.setItem('supportCount', START_COUNT);
+    count = START_COUNT;
+    counterEl.textContent = START_COUNT;
+    voteBtn.textContent = '🗳️ I\'m Voting for Varun!';
+    voteBtn.style.background = '';
+    voteBtn.disabled = false;
+    footerReset.textContent = '✓ Reset!';
+    setTimeout(() => footerReset.textContent = '· · ·', 1500);
+  }
+});
+
+// ─── SEARCH LOGIC ─────────────────────────────────────────────────────────────
+const SUGGESTIONS = [
+  { text: 'Best House Vice Captain for Emerald', tag: '🏆 Top Pick' },
+  { text: 'Varun P — Emerald House IX-B', tag: '⭐ Candidate' },
+  { text: 'Calm leadership for Emerald', tag: '💚 Value' },
+  { text: 'Emerald reaching 1st place', tag: '🚀 Goal' },
+  { text: 'Why Varun is the right choice', tag: '✅ Reason' },
+];
+
+function isCloseToVarun(q) {
+  const v = q.toLowerCase().replace(/\s+/g,'');
+  return ['varun','vrun','varn','varun p','varunp'].some(k => v.includes(k) || k.includes(v) && v.length >= 2);
+}
+
+function buildDropdown(dropdown, query, inputEl, panelId) {
+  dropdown.innerHTML = '';
+  if (!query) { dropdown.classList.remove('visible'); return; }
+  const items = [];
+  if (isCloseToVarun(query)) {
+    SUGGESTIONS.forEach(s => items.push({ text: s.text, tag: s.tag, dym: false }));
+  } else {
+    items.push({ text: 'Did you mean: Varun?', tag: null, dym: true });
+    items.push({ text: 'Best House Vice Captain for Emerald', tag: '🏆 Top Pick', dym: false });
+  }
+  items.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'search-item' + (item.dym ? ' did-you-mean' : '');
+    div.setAttribute('role', 'option');
+    div.setAttribute('tabindex', '0');
+    div.setAttribute('aria-selected', 'false');
+    div.innerHTML = item.tag
+      ? `<span class="tag">${item.tag}</span>${item.text}`
+      : `🔎 ${item.text}`;
+    div.addEventListener('click', () => {
+      inputEl.value = item.text;
+      dropdown.classList.remove('visible');
+      if (item.dym) {
+        scrollToWhy();
+      }
+    });
+    div.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { div.click(); }
+      if (e.key === 'ArrowDown') { const next = dropdown.querySelectorAll('.search-item')[i + 1]; if (next) next.focus(); }
+      if (e.key === 'ArrowUp') { const prev = dropdown.querySelectorAll('.search-item')[i - 1]; if (prev) prev.focus(); else inputEl.focus(); }
+      if (e.key === 'Escape') { dropdown.classList.remove('visible'); inputEl.focus(); }
+    });
+    dropdown.appendChild(div);
+  });
+  dropdown.classList.add('visible');
+}
+
+function scrollToWhy() {
+  const why = document.getElementById('why');
+  why.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => {
+    why.classList.add('highlight-pulse');
+    setTimeout(() => why.classList.remove('highlight-pulse'), 2800);
+  }, 600);
+}
+
+function showResultsPanel() {
+  document.getElementById('search-results-panel').classList.add('open');
+  document.getElementById('results-overlay').classList.add('open');
+  document.getElementById('results-overlay').setAttribute('aria-hidden', 'false');
+  document.getElementById('close-results').focus();
+}
+function closeResultsPanel() {
+  document.getElementById('search-results-panel').classList.remove('open');
+  document.getElementById('results-overlay').classList.remove('open');
+  document.getElementById('results-overlay').setAttribute('aria-hidden', 'true');
+}
+function closeResultsAndScroll() {
+  closeResultsPanel();
+  setTimeout(() => document.getElementById('support').scrollIntoView({ behavior: 'smooth' }), 200);
+}
+
+document.getElementById('results-overlay').addEventListener('click', closeResultsPanel);
+document.getElementById('close-results').addEventListener('click', closeResultsPanel);
+
+// Wire up both search inputs
+['hero-search', 'nav-search'].forEach(id => {
+  const input = document.getElementById(id);
+  const dropdown = document.getElementById(id === 'hero-search' ? 'hero-dropdown' : 'nav-dropdown');
+
+  input.addEventListener('input', () => buildDropdown(dropdown, input.value.trim(), input, id));
+  input.addEventListener('focus', () => { if (input.value.trim()) buildDropdown(dropdown, input.value.trim(), input, id); });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      dropdown.classList.remove('visible');
+      showResultsPanel();
+    }
+    if (e.key === 'ArrowDown') {
+      const first = dropdown.querySelector('.search-item');
+      if (first) { e.preventDefault(); first.focus(); }
+    }
+    if (e.key === 'Escape') { dropdown.classList.remove('visible'); }
+  });
+  document.addEventListener('click', e => {
+    if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.remove('visible');
+    }
+  });
+});
+
+// ESC closes search results panel
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeResultsPanel();
+    closeModal();
+  }
+});
+</script>
+</body>
+</html>
